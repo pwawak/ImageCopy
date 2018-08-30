@@ -1,0 +1,8 @@
+/**
+ * 
+ */
+/**
+ * @author Piotr
+ *
+ */
+package ImageCopy;
