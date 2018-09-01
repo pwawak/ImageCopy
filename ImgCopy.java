@@ -5,6 +5,7 @@ import java.io.IOException;
 public class ImgCopy {
 
 	public static void main(String[] args) throws IOException {
+		// TODO if no params given open up UI for thr user to choose
 		if ( args.length != 4 ) {
 			System.err.println("Incorrect number of arguments");
 			System.exit(-1);			
