@@ -1,5 +1,8 @@
 package ImageCopy;
 
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -57,6 +60,7 @@ final class ImgFileEntry {
 		setFileExistsInDestination( Files.exists( this.destFilePath ) );
 	}
 
+	@Contract(pure = true)
 	public	String getFileName() {
 		return fileName;
 	}
@@ -65,6 +69,8 @@ final class ImgFileEntry {
 		this.fileName = fileName;
 	}
 	
+	@NotNull
+	@Contract(pure = true)
 	public String toString() {
 		return 	"file name: " + fileName + ", fileSize = " + fileSize + 
 				", source path: " + srcFilePath + ", destPath: " + destFilePath +

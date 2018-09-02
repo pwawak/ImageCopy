@@ -40,7 +40,8 @@ final class ImgFileList {
 			
 			while( iter.hasNext() ) {
 				Path	filePath = iter.next();								// path to next file in the source directory
-				
+
+				// TODO add list of ignored subdirectories to be shown to the user
 				if ( Files.isDirectory( filePath ))
 					continue;												// omit directories
 				

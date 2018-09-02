@@ -7,12 +7,15 @@ import java.nio.file.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import ImageCopy.SubdirGen.SubdirPattern;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Piotr
- * Obs³uga parametrów wykonania ImageCopy.
+ * Obsï¿½uga parametrï¿½w wykonania ImageCopy.
  */
 class ExecParams {
 	
@@ -20,14 +23,18 @@ class ExecParams {
 	private	String	destPathName;
 	private	Path	srcPath;
 	private	Path	destPath;
+	private	Logger	lg;
 	
 	private	boolean	srcPathInvalid, destPathInvalid, timePatternInvalid;
+
+	private	SubdirGen	sdirGenerator;
 	
-	private	SubdirGen.SubdirPattern	patternForSubdir;	
-	private	SubdirGen				sdirGenerator;
-	
-	public	ExecParams (String srcFolder, String destFolder, String subpathFormat, String model)
+	public	ExecParams (String srcFolder, String destFolder, @NotNull String subpathFormat, String model)
 	{
+		SubdirGen.SubdirPattern	patternForSubdir;
+
+		lg = Logger.getLogger("imgcopy");
+
 		setSrcFldName(srcFolder);
 		setDestPathName(destFolder);
 		
@@ -36,6 +43,8 @@ class ExecParams {
 		}
 		catch( IllegalArgumentException e) {
 			patternForSubdir = SubdirPattern.EMPTY;
+
+			lg.log( Level.SEVERE, "unknown pattern for subdirectory generation");
 		}
 		
 		timePatternInvalid = false;
@@ -55,7 +64,7 @@ class ExecParams {
 		}
 	}
 	
-	public	SubdirGen	getSubdirNameGenerator () {
+	public ImageCopy.SubdirGen getSubdirNameGenerator () {
 		return sdirGenerator;
 	}
 	
@@ -70,12 +79,15 @@ class ExecParams {
 	public	ArrayList<String>	getErrorMessages() {
 		ArrayList<String>	sal = new ArrayList<String>();
 		
-		if ( srcPathInvalid )
+		if ( srcPathInvalid ) {
 			sal.add( "Invalid source path for files or destination does not point to directory");
-		if ( destPathInvalid )
+		}
+		if ( destPathInvalid ) {
 			sal.add( "Invalid destination path for files or destination does not point to directory");
-		if ( timePatternInvalid )
+		}
+		if ( timePatternInvalid ) {
 			sal.add( "Unknown pattern for destination path subdirectory");
+		}
 		
 		return sal;	
 	}
@@ -113,6 +125,9 @@ class ExecParams {
 		this.srcPath     = Paths.get(this.srcPathName);
 		
 		this.srcPathInvalid = !Files.isDirectory(srcPath);
+
+		if ( srcPathInvalid )
+			lg.log( Level.SEVERE, "Invalid source path for files or destination does not point to directory");
 	}
 
 	private String getDestPathName() {
@@ -124,5 +139,8 @@ class ExecParams {
 		this.destPath     = Paths.get(this.destPathName);
 		
 		this.destPathInvalid = !Files.isDirectory(destPath);
+
+		if ( destPathInvalid )
+			lg.log( Level.SEVERE, "Invalid destination path for files or destination does not point to directory");
 	}
 }

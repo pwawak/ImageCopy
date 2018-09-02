@@ -20,6 +20,7 @@ class ImgFileCopy {
 			ImgFileEntry	ife = it.next();			// Kolejny plik do skopiowania.
 			
 			// Ignore existing files - no need to copy
+			// TODO eliminate unnecesary call, use imageFileEntry property instead
 			if ( Files.exists( ife.getDestFilePath() )) {
 				System.out.println( "Ignoring existing file..." + ife.getDestFilePath() );
 				continue;
@@ -36,6 +37,7 @@ class ImgFileCopy {
 				
 			// Copy file
 			try {
+				// TODO convert printouts to logging
 				System.out.print( "Copying file... " + ife.getSrcFilePath() );
 				Files.copy( ife.getSrcFilePath(), ife.getDestFilePath() );
 				System.out.println( "   ---> copied successfully to .... " + ife.getDestFilePath() );
