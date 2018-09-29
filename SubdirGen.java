@@ -1,5 +1,3 @@
-package ImageCopy;
-
 import java.time.LocalDate;
 
 // Generate subdirectory name based on pattern and given date

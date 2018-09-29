@@ -1,17 +1,17 @@
 /**
  * 
  */
-package ImageCopy;
 
-import java.nio.file.*;
+import org.jetbrains.annotations.NotNull;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import ImageCopy.SubdirGen.SubdirPattern;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * @author Piotr
@@ -39,10 +39,10 @@ class ExecParams {
 		setDestPathName(destFolder);
 		
 		try {
-			patternForSubdir = Enum.valueOf(SubdirPattern.class, subpathFormat.toUpperCase());
+			patternForSubdir = Enum.valueOf(SubdirGen.SubdirPattern.class, subpathFormat.toUpperCase());
 		}
 		catch( IllegalArgumentException e) {
-			patternForSubdir = SubdirPattern.EMPTY;
+			patternForSubdir = SubdirGen.SubdirPattern.EMPTY;
 
 			lg.log( Level.SEVERE, "unknown pattern for subdirectory generation");
 		}
@@ -64,7 +64,7 @@ class ExecParams {
 		}
 	}
 	
-	public ImageCopy.SubdirGen getSubdirNameGenerator () {
+	public SubdirGen getSubdirNameGenerator () {
 		return sdirGenerator;
 	}
 	

@@ -1,5 +1,3 @@
-package ImageCopy;
-
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;

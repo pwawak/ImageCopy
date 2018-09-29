@@ -1,5 +1,3 @@
-package ImageCopy;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,9 +8,9 @@ public class MainFormTest {
 
     @Before
     public void setUp() throws Exception {
-        ImageCopy.MainForm  frm = new ImageCopy.MainForm();
+        MainForm  frm = new MainForm();
         frm.show();
-        //while(true) {}
+        while(true) {}
     }
 
     @Test

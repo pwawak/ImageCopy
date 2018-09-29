@@ -1,7 +1,4 @@
-package ImageCopy;
-
 import static org.junit.Assert.*;
-import ImageCopy.SubdirGen.SubdirPattern;
 
 import java.time.LocalDate;
 
@@ -24,7 +21,7 @@ public class ExecParamsTest {
 
 	@Before
 	public void setUp() throws Exception {
-		ep  = new ExecParams ( "d:\\test", "d:\\test", SubdirPattern.YMD.toString(), "5DSR");
+		ep  = new ExecParams ( "d:\\test", "d:\\test", SubdirGen.SubdirPattern.YMD.toString(), "5DSR");
 		ep1 = new ExecParams ( "d:\\test", "d:\\test", "Y2", "5DSR");
 	}
 

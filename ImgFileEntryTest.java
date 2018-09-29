@@ -1,5 +1,3 @@
-package ImageCopy;
-
 import static org.junit.Assert.*;
 
 import org.junit.Before;
@@ -16,7 +14,7 @@ public class ImgFileEntryTest {
 
 	@Test
 	public void testImgFileEntry() {
-		assertTrue ( "Plik powinien istnieæ", ife.isFileExistsInDestination() );
+		assertTrue ( "Plik powinien istnieï¿½", ife.isFileExistsInDestination() );
 	}
 
 }
