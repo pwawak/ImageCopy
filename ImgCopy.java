@@ -16,6 +16,9 @@ import java.util.logging.*;
 public class ImgCopy {
 
 	public static void main(@NotNull String[] args) throws IOException {
+		MainForm	frm = new MainForm();
+
+
 		// Set up log
 		Handler fh = new FileHandler("imgcopy.log");
 		Logger.getLogger("imgcopy").addHandler(fh);
