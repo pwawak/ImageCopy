@@ -1,9 +1,15 @@
 import javax.swing.*;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeNode;
 import java.awt.*;
+import java.util.Iterator;
 
 public class MainForm {
     private JTree srcFileTree;
     private JTree dstFileTree;
+
+    private ImgFileList fileList;
 
     public static void main(String[] args) {
         boolean isMacOS = System.getProperty("mrj.version") != null;
@@ -12,6 +18,23 @@ public class MainForm {
             System.setProperty("com.apple.mrj.application.apple.menu.about.name",
                     "JabaDex");
         }
+    }
+
+    public void setFileList(ImgFileList ifl) {
+        fileList = ifl;
+
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode(ifl.getSrcPath());
+        Iterator<ImgFileEntry> it = ifl.getIterator();
+
+        while (it.hasNext()) {
+            ImgFileEntry ife = it.next();            // Kolejny plik do skopiowania.
+
+            DefaultMutableTreeNode tn = new DefaultMutableTreeNode(ife);
+            root.add(tn);
+        }
+
+        DefaultTreeModel mdl = new DefaultTreeModel(root);
+        srcFileTree.setModel(mdl);
     }
 
     private JButton btnImport;
@@ -23,7 +46,7 @@ public class MainForm {
         JFrame.setDefaultLookAndFeelDecorated(true);
         JFrame frame = new JFrame("MainForm");
 
-        frame.setContentPane(new MainForm().pnlMain);
+        frame.setContentPane(pnlMain);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.pack();

@@ -17,7 +17,7 @@ public class ImgCopy {
 		MainForm	frm = new MainForm();
 
 
-		// Set up log
+		//"‎\\Macintosh HD\Users\piotr\src" Set up log
 		Handler fh = new FileHandler("imgcopy.log");
 		Logger.getLogger("imgcopy").addHandler(fh);
 		Logger.getLogger("imgcopy").setLevel(Level.FINEST);
@@ -29,8 +29,6 @@ public class ImgCopy {
 			lg.log( Level.SEVERE, "Incorrect number of arguments" );
 			System.exit(-1);			
 		}
-
-		// TODO add logging
 			
 		// Analyse parameters
 		ExecParams ep = new ExecParams( args[0], args[1], args[2].toUpperCase(), args[3].toUpperCase() );
@@ -43,13 +41,16 @@ public class ImgCopy {
 		
 		// Build file list for copying
 		ImgFileList	ifl = new ImgFileList( args[0], args[1], ep.getSubdirNameGenerator() );
-		
+
+		frm.setFileList( ifl );
+		frm.show();
+
 		//copy files
-		ImgFileCopy	ifc = new ImgFileCopy( ifl );
+		//ImgFileCopy	ifc = new ImgFileCopy( ifl );
 		
-		int	exitCode = ifc.process();
+		//int	exitCode = ifc.process();
 		
-		System.exit( exitCode );
+		System.exit( 0 );
 	}
 
 }

@@ -10,7 +10,7 @@ interface SubdirGen {
 		private	String	pattern;
 		
 		private	SubdirPattern( String pattern ) {
-			this. pattern = pattern;
+			this.pattern = pattern;
 		}
 		
 		public	String	getPattern () {

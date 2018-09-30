@@ -17,7 +17,7 @@ import java.util.stream.Stream;
  *
  */
 final class ImgFileList {
-
+	private String	srcPath;
 	private	ArrayList<ImgFileEntry>	ifel = new ArrayList<ImgFileEntry> ();
 	
 	private	LocalDate	getFileCreationDate ( Path p ) throws IOException {
@@ -30,6 +30,8 @@ final class ImgFileList {
 	
 	public	ImgFileList ( String srcPathToDirectory, String destPathToDirectory, SubdirGen sdir ) throws IOException {
 		// Fill table with list of file entries based on the contents of source directory
+
+		srcPath = srcPathToDirectory;
 
 		try ( Stream<Path> entries = Files.list( Paths.get( srcPathToDirectory ) )){
 			Iterator<Path>	iter = entries.iterator();
@@ -53,7 +55,11 @@ final class ImgFileList {
 /*		for( ImgFileEntry e : ifel )
 			System.out.println( e.toString() );*/
 	}
-	
+
+	public String	getSrcPath(){
+		return srcPath;
+	}
+
 	public	Iterator<ImgFileEntry>	getIterator () {
 		return	ifel.iterator();
 	}

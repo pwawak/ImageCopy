@@ -6,16 +6,16 @@ import static org.junit.Assert.*;
 
 public class MainFormTest {
 
+    MainForm    frm;
     @Before
     public void setUp() throws Exception {
-        MainForm  frm = new MainForm();
-        frm.show();
-        while(true) {}
+        frm = new MainForm();
     }
 
     @Test
     public void testExecParams() {
-
+        frm.show();
+        while ( true )  {}
     }
 
     @After

@@ -70,8 +70,9 @@ final class ImgFileEntry {
 	@NotNull
 	@Contract(pure = true)
 	public String toString() {
-		return 	"file name: " + fileName + ", fileSize = " + fileSize + 
+		return	fileName;
+/*		return 	"file name: " + fileName + ", fileSize = " + fileSize +
 				", source path: " + srcFilePath + ", destPath: " + destFilePath +
-				", file exists? " + fileExistsInDestination;
+				", file exists? " + fileExistsInDestination;*/
 	}
 }
