@@ -50,7 +50,7 @@ public class ImgCopy {
 		
 		//int	exitCode = ifc.process();
 		
-		System.exit( 0 );
+		//System.exit( 0 );
 	}
 
 }
