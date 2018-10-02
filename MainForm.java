@@ -1,30 +1,80 @@
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreeNode;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MainForm {
     private JTree srcFileTree;
     private JTree dstFileTree;
+    private JButton btnSrcPath;
+    private JScrollPane jspDst;
+    private JScrollPane jspSrc;
+    private JPanel pnlMain;
+    private JButton btnDestPath;
 
+    private Logger lg;
     private ImgFileList fileList;
 
+    public MainForm(Logger lg) {
+        this.lg = lg;
+
+        btnSrcPath.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {    // choose new source directory
+                JFileChooser chr = new JFileChooser();
+                chr.setCurrentDirectory(new File("."));
+                chr.setDialogTitle("Wybierz katalog do skopiowania");
+                chr.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+                chr.setAcceptAllFileFilterUsed(false);
+
+                if (chr.showOpenDialog(null) == JFileChooser.APPROVE_OPTION)
+                    try {
+                        fileList.setSrcPath(chr.getSelectedFile().getAbsolutePath());
+                        setFileList();
+                    } catch (IOException exc) {
+                        lg.log(Level.SEVERE, "Error in setting source dir: " + exc.getMessage());
+                    }
+            }
+        });
+        btnDestPath.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {    // choose new destination directory
+                JFileChooser chr = new JFileChooser();
+                chr.setCurrentDirectory(new File("."));
+                chr.setDialogTitle("Wybierz katalog docelowy");
+                chr.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+                chr.setAcceptAllFileFilterUsed(false);
+
+                if (chr.showOpenDialog(null) == JFileChooser.APPROVE_OPTION)
+                    try {
+                        fileList.setDestPath(chr.getSelectedFile().getAbsolutePath());
+                        setFileList();
+                    } catch (IOException exc) {
+                        lg.log(Level.SEVERE, "Error in setting dest dir: " + exc.getMessage());
+                    }
+            }
+        });
+    }
+
     public static void main(String[] args) {
-        boolean isMacOS = System.getProperty("mrj.version") != null;
-        if (isMacOS) {
-            System.setProperty("apple.laf.useScreenMenuBar", "true");
-            System.setProperty("com.apple.mrj.application.apple.menu.about.name",
-                    "JabaDex");
-        }
     }
 
     public void setFileList(ImgFileList ifl) {
         fileList = ifl;
 
-        DefaultMutableTreeNode root = new DefaultMutableTreeNode(ifl.getSrcPath());
-        Iterator<ImgFileEntry> it = ifl.getIterator();
+        setFileList();
+    }
+
+    private void setFileList() {
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode(fileList.getSrcPath());
+        Iterator<ImgFileEntry> it = fileList.getIterator();
 
         while (it.hasNext()) {
             ImgFileEntry ife = it.next();            // Kolejny plik do skopiowania.
@@ -36,11 +86,6 @@ public class MainForm {
         DefaultTreeModel mdl = new DefaultTreeModel(root);
         srcFileTree.setModel(mdl);
     }
-
-    private JButton btnImport;
-    private JScrollPane jspDst;
-    private JScrollPane jspSrc;
-    private JPanel pnlMain;
 
     public void show() {
         JFrame.setDefaultLookAndFeelDecorated(true);
@@ -73,9 +118,9 @@ public class MainForm {
         pnlMain.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(2, 3, new Insets(0, 0, 0, 0), -1, -1));
         final com.intellij.uiDesigner.core.Spacer spacer1 = new com.intellij.uiDesigner.core.Spacer();
         pnlMain.add(spacer1, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_VERTICAL, 1, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
-        btnImport = new JButton();
-        btnImport.setText("Button");
-        pnlMain.add(btnImport, new com.intellij.uiDesigner.core.GridConstraints(1, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        btnSrcPath = new JButton();
+        btnSrcPath.setText("Button");
+        pnlMain.add(btnSrcPath, new com.intellij.uiDesigner.core.GridConstraints(1, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         jspDst = new JScrollPane();
         pnlMain.add(jspDst, new com.intellij.uiDesigner.core.GridConstraints(0, 2, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         dstFileTree = new JTree();
@@ -84,6 +129,9 @@ public class MainForm {
         pnlMain.add(jspSrc, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 2, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         srcFileTree = new JTree();
         jspSrc.setViewportView(srcFileTree);
+        btnDestPath = new JButton();
+        btnDestPath.setText("Button");
+        pnlMain.add(btnDestPath, new com.intellij.uiDesigner.core.GridConstraints(1, 2, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /**
@@ -93,3 +141,5 @@ public class MainForm {
         return pnlMain;
     }
 }
+
+
