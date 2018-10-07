@@ -1,6 +1,3 @@
-import org.jetbrains.annotations.Contract;
-import org.jetbrains.annotations.NotNull;
-
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -58,7 +55,6 @@ final class ImgFileEntry {
 		setFileExistsInDestination( Files.exists( this.destFilePath ) );
 	}
 
-	@Contract(pure = true)
 	public	String getFileName() {
 		return fileName;
 	}
@@ -66,9 +62,7 @@ final class ImgFileEntry {
 	private void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
-	
-	@NotNull
-	@Contract(pure = true)
+
 	public String toString() {
 		return	fileName;
 /*		return 	"file name: " + fileName + ", fileSize = " + fileSize +

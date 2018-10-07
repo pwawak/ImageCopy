@@ -1,5 +1,3 @@
-import org.jetbrains.annotations.NotNull;
-
 import java.io.IOException;
 import java.util.logging.*;
 
@@ -13,16 +11,15 @@ import java.util.logging.*;
  */
 public class ImgCopy {
 
-	public static void main(@NotNull String[] args) throws IOException {
-		MainForm	frm = new MainForm();
-
-
-		//"‎\\Macintosh HD\Users\piotr\src" Set up log
+	public static void main(String[] args) throws IOException {
+		// Set up log
 		Handler fh = new FileHandler("imgcopy.log");
 		Logger.getLogger("imgcopy").addHandler(fh);
 		Logger.getLogger("imgcopy").setLevel(Level.FINEST);
 
 		Logger lg = Logger.getLogger("imgcopy");
+
+		MainForm	frm = new MainForm( lg );
 
 		// TODO if no params given open up UI for the user to choose
 		if ( args.length != 4 ) {
@@ -42,7 +39,7 @@ public class ImgCopy {
 		// Build file list for copying
 		ImgFileList	ifl = new ImgFileList( args[0], args[1], ep.getSubdirNameGenerator() );
 
-		frm.setFileList( ifl );
+		frm.setSrcFileList( ifl );
 		frm.show();
 
 		//copy files

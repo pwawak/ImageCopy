@@ -17,7 +17,8 @@ import java.util.stream.Stream;
  *
  */
 final class ImgFileList {
-	private String	srcPath;
+	private String		srcPath, destPath;
+	private	SubdirGen	sdir;
 	private	ArrayList<ImgFileEntry>	ifel = new ArrayList<ImgFileEntry> ();
 	
 	private	LocalDate	getFileCreationDate ( Path p ) throws IOException {
@@ -31,9 +32,17 @@ final class ImgFileList {
 	public	ImgFileList ( String srcPathToDirectory, String destPathToDirectory, SubdirGen sdir ) throws IOException {
 		// Fill table with list of file entries based on the contents of source directory
 
-		srcPath = srcPathToDirectory;
+		this.srcPath = srcPathToDirectory;
+		this.destPath = destPathToDirectory;
+		this.sdir = sdir;
 
-		try ( Stream<Path> entries = Files.list( Paths.get( srcPathToDirectory ) )){
+		setFileList();
+	}
+
+	private	void setFileList() throws IOException {
+		ifel.clear();
+
+		try ( Stream<Path> entries = Files.list( Paths.get( srcPath ) )){
 			Iterator<Path>	iter = entries.iterator();
 			
 			while( iter.hasNext() ) {
@@ -46,24 +55,31 @@ final class ImgFileList {
 				String	fileName = filePath.getFileName().toString();		// next file name from the source directory
 				
 				// Combine destination path with subdirectory generated from file date.
-				Path	destFilePath = Paths.get( destPathToDirectory, sdir.subdirBasedOnPattern( getFileCreationDate ( filePath ))); 
+				Path	destFilePath = Paths.get( destPath, sdir.subdirBasedOnPattern( getFileCreationDate ( filePath )));
 
-				ifel.add( ( new ImgFileEntry ( fileName, srcPathToDirectory, destFilePath.toString() ) ));
+				ifel.add( ( new ImgFileEntry ( fileName, srcPath, destFilePath.toString() ) ));
 			}
 		}
-		
-/*		for( ImgFileEntry e : ifel )
-			System.out.println( e.toString() );*/
 	}
 
 	public String	getSrcPath(){
 		return srcPath;
 	}
+	public String	getDestPath(){
+		return destPath;
+	}
 
+	public void 	setSrcPath( String pth ) throws IOException {
+		srcPath = pth;
+		setFileList();
+	}
+	public void 	setDestPath( String pth ) throws IOException {
+		destPath = pth;
+		setFileList();
+	}
 	public	Iterator<ImgFileEntry>	getIterator () {
 		return	ifel.iterator();
 	}
-	
 	
 	/**
 	 * @param args

@@ -1,9 +1,6 @@
 /**
  * 
  */
-
-import org.jetbrains.annotations.NotNull;
-
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -29,7 +26,7 @@ class ExecParams {
 
 	private	SubdirGen	sdirGenerator;
 	
-	public	ExecParams (String srcFolder, String destFolder, @NotNull String subpathFormat, String model)
+	public	ExecParams (String srcFolder, String destFolder, String subpathFormat, String model)
 	{
 		SubdirGen.SubdirPattern	patternForSubdir;
 
