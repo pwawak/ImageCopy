@@ -32,11 +32,11 @@ class ExecParams {
 
 		lg = Logger.getLogger("imgcopy");
 
-		setSrcFldName(srcFolder);
+		setSrcPathName(srcFolder);
 		setDestPathName(destFolder);
 		
 		try {
-			patternForSubdir = Enum.valueOf(SubdirGen.SubdirPattern.class, subpathFormat.toUpperCase());
+			patternForSubdir = Enum.valueOf(SubdirGen.SubdirPattern.class, subpathFormat);
 		}
 		catch( IllegalArgumentException e) {
 			patternForSubdir = SubdirGen.SubdirPattern.EMPTY;
@@ -117,14 +117,14 @@ class ExecParams {
 		return srcPathName;
 	}
 
-	private void setSrcFldName(String srcFldName) {
+	private void setSrcPathName(String srcFldName) {
 		this.srcPathName = srcFldName;
 		this.srcPath     = Paths.get(this.srcPathName);
-		
+
 		this.srcPathInvalid = !Files.isDirectory(srcPath);
 
 		if ( srcPathInvalid )
-			lg.log( Level.SEVERE, "Invalid source path for files or destination does not point to directory");
+			lg.log( Level.SEVERE, "Invalid source path for files: " + srcPath.toString() );
 	}
 
 	private String getDestPathName() {
@@ -138,6 +138,6 @@ class ExecParams {
 		this.destPathInvalid = !Files.isDirectory(destPath);
 
 		if ( destPathInvalid )
-			lg.log( Level.SEVERE, "Invalid destination path for files or destination does not point to directory");
+			lg.log( Level.SEVERE, "Invalid destination path for files: " + destPath.toString() );
 	}
 }

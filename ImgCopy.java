@@ -28,7 +28,7 @@ public class ImgCopy {
 		}
 			
 		// Analyse parameters
-		ExecParams ep = new ExecParams( args[0], args[1], args[2].toUpperCase(), args[3].toUpperCase() );
+		ExecParams ep = new ExecParams( args[0], args[1], args[2], args[3].toUpperCase() );
 
 		// Check parameters
 		if ( ! ep.isValidState() ) {
